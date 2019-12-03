@@ -1,5 +1,6 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, Action } from '@ngrx/store';
+import { createReducer, Action, on } from '@ngrx/store';
+import * as actions from '../actions/holidays.actions';
 
 export interface HolidayEntity {
   id: string;
@@ -23,7 +24,8 @@ const initialState: HolidayState = {
 };
 
 const reducerFunction = createReducer(
-  initialState
+  initialState,
+  on(actions.addHoliday, (state, action) => adapter.addOne(action.payload, state))
 );
 
 export function reducer(state: HolidayState = initialState, action: Action) {
