@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GiftGivingState, selectHolidayModel, selectHolidayListModel, selectRecipientModel } from '../../reducers';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { HolidayListItem, RecipientListModel } from '../../models';
 
 @Component({
   selector: 'app-recipients',
@@ -7,9 +11,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecipientsComponent implements OnInit {
 
-  constructor() { }
+  holidays$: Observable<HolidayListItem[]>;
+  recipients$: Observable<RecipientListModel[]>;
+  constructor(private store: Store<GiftGivingState>) { }
 
   ngOnInit() {
+    this.holidays$ = this.store.select(selectHolidayListModel);
+    this.recipients$ = this.store.select(selectRecipientModel);
   }
 
 }

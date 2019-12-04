@@ -1,0 +1,42 @@
+<form [formGroup]="form"
+      (ngSubmit)="submit(focusme)">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input formControlName="name"
+           #focusme
+           class="form-control"
+           id="name">
+    <div class="alert alert-danger"
+         *ngIf="name.invalid && (name.dirty || name.touched)">
+      <div *ngIf="name.errors.minlength">
+        That isn't long enough. You need {{ name.errors.minlength.requiredLength}}
+      </div>
+      <div *ngIf="name.errors.required">
+        You have to give us a name!
+      </div>
+      <!-- {{ name.errors | json }} -->
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email"
+           formControlName="email"
+           class="form-control"
+           id="email">
+    <div class="alert alert-danger"
+         *ngIf="email.invalid && (email.dirty || email.touched)">
+      {{ name.errors | json }}
+    </div>
+  </div>
+  <div class="form-group form-check"
+       formArrayName="holidays"
+       *ngFor="let holiday of form.controls.holidays.controls; let i = index">
+    <input type="checkbox"
+           [formControlName]="i"
+           class="form-check-input">
+    <label class="form-check-inline">{{holidays[i].name }} {{ holidays[i].date | date: 'shortDate' }}</label>
+  </div>
+  <input type="submit"
+         class="btn btn-primary"
+         value="Add This Person">
+</form>
