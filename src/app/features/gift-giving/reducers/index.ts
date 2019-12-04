@@ -30,18 +30,40 @@ const selectHolidayListControlsBranch = createSelector(selectGiftFeature,
 
 // 3. Helpers
 const { selectAll: selectHolidayArray } = fromHolidays.adapter.getSelectors(selectHolidaysBranch);
+const selectShowAll = createSelector(
+  selectHolidayListControlsBranch,
+  b => b.showAll
+);
+const selectSortBy = createSelector(
+  selectHolidayListControlsBranch,
+  b => b.sortBy
+);
 
 // 4. For the Components
 
 
 // 4.a. We need one that returns a holiday model.
-export const selectHolidayModel = createSelector(
+const selectHolidayModelRaw = createSelector(
   selectHolidayArray,
   (holidays) => {
     return {
       holidays // Note: Easy for now because they are the same.
     } as fromHolidayModels.HolidaysModel;
   });
+
+const selectHolidayModelFiltered = createSelector(
+  selectHolidayModelRaw,
+  selectShowAll,
+  (holidayModel, showAll) => {
+    if (showAll) {
+      return holidayModel;
+    } else {
+      return {
+        holidays: holidayModel.holidays.filter(h => new Date(h.date) >= new Date())
+      } as fromHolidayModels.HolidaysModel;
+    }
+  }
+);
 
 export const selectHolidayListControlsModel = createSelector(
   selectHolidayListControlsBranch,
@@ -53,4 +75,46 @@ export const selectHolidayListControlsModel = createSelector(
       sortingByName: b.sortBy === 'name'
     } as fromHolidayListContolModels.ListControlsModel;
   }
+);
+
+const selectHolidayListSorted = createSelector(
+  selectHolidayModelFiltered,
+  selectSortBy,
+  (holiday, by) => {
+    if (by === 'date') {
+      return {
+        holidays: [...holiday.holidays.sort(
+          (lhs, rhs) => {
+            if (new Date(lhs.date) < new Date(rhs.date)) {
+              return -1;
+            }
+            if (new Date(lhs.date) > new Date(rhs.date)) {
+              return 1;
+            }
+            return 0;
+          }
+        )]
+      };
+
+    } else {
+      return {
+        holidays: [...holiday.holidays.sort(
+          (lhs, rhs) => {
+            if (lhs.name.toLocaleLowerCase() < rhs.name.toLocaleLowerCase()) {
+              return -1;
+            }
+            if (lhs.name.toLocaleLowerCase() > rhs.name.toLocaleLowerCase()) {
+              return 1;
+            }
+            return 0;
+          }
+        )]
+      };
+    }
+  }
+);
+
+export const selectHolidayModel = createSelector(
+  selectHolidayListSorted,
+  h => h
 );

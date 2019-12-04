@@ -9,6 +9,7 @@ import { GiftGivingModule } from './features/gift-giving/gift-giving.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './reducers';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,15 @@ import { reducers } from './reducers';
     // order matters - AppRoutingModule needs to be last
     // because the default route will kick in prematurely
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      // these run-time checks will probably be enabled by default in future releases
+      runtimeChecks: {
+        strictActionImmutability: !environment.production,
+        strictActionSerializability: true,
+        strictStateImmutability: true,
+        strictStateSerializability: true // this one will cause the default RouterStore to fail.
+      }
+    }),
     StoreDevtoolsModule.instrument()
   ],
   providers: [],
