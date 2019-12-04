@@ -36,7 +36,14 @@
            class="form-check-input">
     <label class="form-check-inline">{{holidays[i].name }} {{ holidays[i].date | date: 'shortDate' }}</label>
   </div>
+  <div class="alert alert-danger"
+       *ngIf="holidaysArray.invalid && (holidaysArray.dirty || holidaysArray.touched)">
+    <p *ngIf="holidaysArray.errors.required">
+      You have to have pick at least {{holidaysArray.errors.needed}} holidays
+    </p>
+  </div>
   <input type="submit"
+         [disabled]="form.invalid"
          class="btn btn-primary"
          value="Add This Person">
 </form>

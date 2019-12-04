@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray, Validators, ValidatorFn } from '@angular/forms';
 import { HolidayListItem } from '../../../models';
 import { Store } from '@ngrx/store';
 import { GiftGivingState } from '../../../reducers';
@@ -22,7 +22,7 @@ export class RecipientEntryComponent implements OnInit, OnDestroy {
   changesSub: Subscription;
 
   constructor(private formBuilder: FormBuilder, private store: Store<GiftGivingState>) {
-    this.holidaysArray = new FormArray([]);
+    this.holidaysArray = new FormArray([], minNumberOfSelectedCheckboxes(1));
     this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
     this.changesSub = this.name.valueChanges.subscribe(v => console.log(v));
     this.email = new FormControl('', [Validators.email]);
@@ -61,4 +61,15 @@ export class RecipientEntryComponent implements OnInit, OnDestroy {
     // console.log({ name, email, selectedHolidayIds });
   }
 
+}
+
+
+function minNumberOfSelectedCheckboxes(min: number) {
+  const validator: ValidatorFn = (formArray: FormArray) => {
+    const numberSelected = formArray.controls
+      .map(c => c.value)
+      .reduce((prev, next) => next ? prev + next : prev, 0);
+    return numberSelected >= min ? null : { required: true, needed: min };
+  };
+  return validator;
 }
