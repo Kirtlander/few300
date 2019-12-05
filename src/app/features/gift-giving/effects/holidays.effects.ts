@@ -2,7 +2,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as holidayActions from '../actions/holidays.actions';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { HolidayEntity } from '../reducers/holidays.reducer';
 import { environment } from '../../../../environments/environment';
 
@@ -18,10 +19,14 @@ export class HolidaysEffects {
           name: originalAction.payload.name,
           date: originalAction.payload.date,
         }).pipe(
-          map(newHoliday => holidayActions.addHolidaySucceeded({ payload: newHoliday, oldId: originalAction.payload.id }))
+          map(newHoliday => holidayActions.addHolidaySucceeded({ payload: newHoliday, oldId: originalAction.payload.id })),
+          catchError((err) => of(holidayActions.addHolidayFailed({
+            payload: originalAction.payload,
+            message: 'Could not add the holiday. Sorry.'
+          })))
         ))
       )
-    , { dispatch: true });
+    , { dispatch: true }); // a value of false will prevent an infinite loop if it is dispatched synchronously
 
   // when we get loadHolidays -> loadHolidaysSucceeded
   loadTheHolidays$ = createEffect(() =>
