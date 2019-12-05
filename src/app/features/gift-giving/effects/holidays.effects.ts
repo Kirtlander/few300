@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import * as holidayActions from '../actions/holidays.actions';
 import { switchMap, map } from 'rxjs/operators';
 import { HolidayEntity } from '../reducers/holidays.reducer';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class HolidaysEffects {
@@ -14,7 +15,7 @@ export class HolidaysEffects {
       .pipe(
         ofType(holidayActions.loadHolidays),
         // casting to GetHolidaysResponse only gives you intellisense, it doesn't validate the response...
-        switchMap(() => this.client.get<GetHolidaysResponse>('http://localhost:3000/holidays')
+        switchMap(() => this.client.get<GetHolidaysResponse>(`${environment.rootApiUrl}holidays`)
           .pipe(
             map(response => response.holidays),
             map(holidays => holidayActions.loadHolidaysSucceeded({ payload: holidays }))
