@@ -17,7 +17,7 @@ export class HolidayEntryComponent implements OnInit {
 
   addHoliday(nameEl: HTMLInputElement, dateEl: HTMLInputElement) {
     const name = nameEl.value;
-    const date = dateEl.value;
+    const date = dateEl.valueAsDate.toISOString();
     // Dispatch
     this.store.dispatch(actions.addHoliday({ name, date }));
     nameEl.value = '';
