@@ -30,7 +30,7 @@
   </div>
   <div class="form-group form-check"
        formArrayName="holidays"
-       *ngFor="let holiday of form.controls.holidays.controls; let i = index">
+       *ngFor="let holiday of holidaysArray.controls; let i = index">
     <input type="checkbox"
            [formControlName]="i"
            class="form-check-input">

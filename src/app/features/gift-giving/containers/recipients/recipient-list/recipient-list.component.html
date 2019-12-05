@@ -1,7 +1,7 @@
 <div class="card"
      *ngFor="let recipient of model">
   <div class="card-body">
-    <h5 class="card-title">Joe Schmidt</h5>
+    <h5 class="card-title">{{recipient.name}}</h5>
     <p *ngIf="recipient.email"
        class="card-text">{{recipient.name}} can be contacted at <a
          href="mailto:{{recipient.email}}">{{recipient.email}}</a></p>
