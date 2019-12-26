@@ -19,7 +19,7 @@ export const loadRecipients = createAction(
 );
 
 export const loadRecipientsSucceeded = createAction(
-  '[gift giving] loading the recipients worked',
+  '[gift giving] recipients loaded successfully',
   props<{ payload: RecipientEntity[] }>()
 );
 
