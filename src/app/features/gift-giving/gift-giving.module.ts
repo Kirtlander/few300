@@ -18,6 +18,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './effects/app.effects';
 import { HolidaysEffects } from './effects/holidays.effects';
 import { HttpClientModule } from '@angular/common/http';
+import { RecipientsEffects } from './effects/recipients.effects';
 
 const routes: Routes = [
   {
@@ -59,7 +60,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     StoreModule.forFeature(featureName, reducers),
     ReactiveFormsModule,
-    EffectsModule.forFeature([AppEffects, HolidaysEffects])
+    EffectsModule.forFeature([
+      AppEffects,
+      HolidaysEffects,
+      RecipientsEffects
+    ])
   ]
 })
 export class GiftGivingModule { }

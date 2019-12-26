@@ -16,6 +16,7 @@ export const recipientAdded = createAction(
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, Action, on } from '@ngrx/store';
 import * as actions from '../actions/recipients.actions';
+
 export interface RecipientEntity {
   id: string;
   name: string;
@@ -33,7 +34,8 @@ const initialState = adapter.getInitialState();
 
 const reducerFunction = createReducer(
   initialState,
-  on(actions.recipientAdded, (state, action) => adapter.addOne(action.payload, state))
+  on(actions.recipientAdded, (state, action) => adapter.addOne(action.payload, state)),
+  on(actions.loadRecipientsSucceeded, (state, action) => adapter.addAll(action.payload, state))
 );
 
 export function reducer(state: RecipientState = initialState, action: Action) {
