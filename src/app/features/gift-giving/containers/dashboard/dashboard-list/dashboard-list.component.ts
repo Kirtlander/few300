@@ -25,14 +25,12 @@ export class DashboardListComponent implements OnChanges {
     this.holidaysHash = this.holidays
       .filter(h => h.date >= new Date().toISOString())
       .sort((l, r) => l.date.localeCompare(r.date))
-      .map(h =>
-        ({
-          holiday: h,
-          recipients: this.recipients.filter(r =>
-            r.holidays
-              .some(rh => rh.id === h.id)
-          ).sort((a, b) => a.name.localeCompare(b.name))
-        }));
+      .map(h => ({
+        holiday: h,
+        recipients: this.recipients
+          .filter(r => r.holidays.some(rh => rh.id === h.id))
+          .sort((l, r) => l.name.localeCompare(r.name))
+      }));
   }
 
 }
