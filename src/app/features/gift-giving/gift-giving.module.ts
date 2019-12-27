@@ -19,6 +19,7 @@ import { AppEffects } from './effects/app.effects';
 import { HolidaysEffects } from './effects/holidays.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipientsEffects } from './effects/recipients.effects';
+import { DashboardListComponent } from './containers/dashboard/dashboard-list/dashboard-list.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
     HolidayListComponent,
     HolidayListControlsComponent,
     RecipientEntryComponent,
-    RecipientListComponent
+    RecipientListComponent,
+    DashboardListComponent
   ],
   imports: [
     CommonModule,

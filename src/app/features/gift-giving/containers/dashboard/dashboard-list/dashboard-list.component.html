@@ -1,0 +1,12 @@
+<div class="card"
+     *ngFor="let group of holidaysHash">
+  <div class="card-body">
+    <h5 class="card-title">{{group.holiday.name}}</h5>
+    <p class="date">On {{group.holiday.date | date:'longDate'}}</p>
+    <em>Recipients:</em>
+    <ul class="list-group">
+      <li class="list-group-item"
+          *ngFor="let recipient of group.recipients">{{recipient.name}}</li>
+    </ul>
+  </div>
+</div>

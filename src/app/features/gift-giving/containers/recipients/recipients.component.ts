@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GiftGivingState, selectHolidayModel, selectHolidayListModel, selectRecipientModel } from '../../reducers';
+import { GiftGivingState, selectHolidayListModel, selectRecipientModel } from '../../reducers';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { HolidayListItem, RecipientListModel } from '../../models';
