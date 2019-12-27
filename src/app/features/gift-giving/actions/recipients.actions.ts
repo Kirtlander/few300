@@ -10,8 +10,28 @@ export const recipientAdded = createAction(
       name,
       email,
       selectedHolidayIds
-    }
+    } as RecipientEntity
   })
+);
+
+export const addRecipientSucceeded = createAction(
+  '[gift giving] recipient added successfully',
+  props<{ payload: RecipientEntity, oldId: string, selectedHolidayIds: string[] }>()
+);
+
+export const addRecipientFailed = createAction(
+  '[gift giving] adding a recipient failed',
+  props<{ payload: RecipientEntity, message: string }>()
+);
+
+export const addRecipientHolidaysSucceeded = createAction(
+  '[gift giving] recipient holidays added successfully',
+  props<{ payload: RecipientEntity }>()
+);
+
+export const addRecipientHolidaysFailed = createAction(
+  '[gift giving] adding recipient holidays failed',
+  props<{ payload: RecipientEntity, message: string }>()
 );
 
 export const loadRecipients = createAction(

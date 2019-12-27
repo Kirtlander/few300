@@ -142,7 +142,7 @@ export const selectRecipientModel = createSelector(
         id: recipient.id,
         name: recipient.name,
         email: recipient.email,
-        holidays: recipient.selectedHolidayIds // ['1', '2']
+        holidays: (recipient.selectedHolidayIds || []) // ['1', '2']
           // holidays model is like a dictionary that we can project the holiday from ids
           .map(id => holidays[id]).map(makeHolidayThing)
       } as fromRecipientsModels.RecipientListModel;

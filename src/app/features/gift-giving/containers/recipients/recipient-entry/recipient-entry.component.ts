@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators, ValidatorFn } from '@angular/forms';
 import { HolidayListItem } from '../../../models';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./recipient-entry.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecipientEntryComponent implements OnInit, OnDestroy {
+export class RecipientEntryComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() holidays: HolidayListItem[];
   form: FormGroup;
@@ -45,6 +45,13 @@ export class RecipientEntryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this didn't work if I refreshed the page when this was open - input must
+    // have been undefined during OnInit. It worked fine if I navigated away, then
+    // back again, though...
+    // this.createCheckboxes();
+  }
+
+  ngOnChanges() {
     this.createCheckboxes();
   }
 
