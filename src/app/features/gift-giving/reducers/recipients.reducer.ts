@@ -40,6 +40,11 @@ const reducerFunction = createReducer(
     const oldState = adapter.removeOne(action.oldId, state);
     return adapter.addOne(action.payload, oldState);
   }),
+  on(actions.addRecipientHolidaysSucceeded, (state, action) => {
+    const oldState = adapter.removeOne(action.payload.id, state);
+    const recipientWithHolidays = { ...action.payload, selectedHolidayIds: action.payload.selectedHolidayIds };
+    return adapter.addOne(recipientWithHolidays, oldState);
+  }),
   on(actions.addRecipientFailed, (state, action) => adapter.removeOne(action.payload.id, state))
 );
 
