@@ -2,6 +2,6 @@
   <li class="alert alert-info"
       *ngFor="let holiday of model.holidays">
     <h5>{{holiday.name}}</h5>
-    <p>On {{holiday.date | date:'longDate'}}</p>
+    <p>On {{holiday.date | date:'longDate':"UTC"}}</p>
   </li>
 </ul>
